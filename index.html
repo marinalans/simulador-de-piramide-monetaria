@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+  <html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Simulador de Pirâmide Monetária</title> 
+    
+  </head>
+  <body>
+    
+    <form action="">
+      <h1>Simule aqui:</h1>
+
+      <label for="convidados">Quantidade de Pessoas a Convidar</label>
+      <input type="number" id="convidadosid" placeholder="4" required="required" name="convidados" />
+      <br><br>
+      <label for="quantia">Quantia Individual a ser Doada (R$)</label>
+      <input type="number" id="quantiaid" placeholder="20" required="required" name="quantia" />
+      <br><br>
+      <label for="meta">Meta a ser Alcançada (R$)</label>
+      <input type="number" id="metaid" placeholder="1000000" required="required" name="meta" />
+      <br><br>
+      <input type="submit" class="enviar" id="enviar" value="Enviar" />
+      <br><br>
+    </form>
+
+    <table style="width:500px; border:1px solid #ccc">
+      <thead>
+        <tr>
+          <th>Pessoas convidadas</th>
+          <th>Quantia a ser doada pelos convidados</th>
+          <th>Total de Doadores</th>
+          <th>Valor Total Arrecadado</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+      
+    <script type="text/javascript">
+
+      var enviar = document.querySelector("#enviar");
+      var convidados = document.querySelector("input[name='convidados']");
+      var quantia = document.querySelector("input[name='quantia']");
+      var meta = document.querySelector("input[name='meta']");
+      var tabela = document.querySelector("tbody");
+      
+      function criar_linha(pessoas, quant, doadores, valortotal) {
+	        const dinheiro = pessoas * quant;
+
+          var linha = document.createElement("tr");
+          var campo_convidados = document.createElement("td");
+          var campo_quantia = document.createElement("td");
+          var campo_doadores = document.createElement("td");
+          var campo_valor_arrecadado = document.createElement("td");
+	  
+          campo_convidados.textContent = String(pessoas);
+          campo_quantia.textContent = dinheiro.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+	        campo_doadores.textContent = String(doadores);
+          campo_valor_arrecadado.textContent = valortotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+          linha.appendChild(campo_convidados);
+          linha.appendChild(campo_quantia);
+          linha.appendChild(campo_doadores);
+          linha.appendChild(campo_valor_arrecadado);
+
+          tabela.appendChild(linha);
+      };         
+
+      function adicionar_dados(event) {
+	        event.preventDefault();
+	        tabela.textContent = "";
+      	  var conv = convidados.value;
+      	  var quant = quantia.value;
+          var pessoas = 1;
+      	  var doadores = 1;
+	        var valortotal = 0;
+
+	        if (quant > 0 && conv > 0) {
+		          for (let i=0; i< 10; i++) {
+			            valortotal = valortotal + (pessoas * quant);
+                	criar_linha(pessoas, quant, doadores, valortotal);
+			            pessoas = pessoas * conv;
+			            doadores = doadores + pessoas;
+        	    }
+	        }	  
+      }; 
+	  
+      enviar.addEventListener('click', adicionar_dados);
+
+    </script>    
+   </body>
+</html>  
+
